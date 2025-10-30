@@ -49,7 +49,11 @@ export default function Index() {
       <div className="min-h-screen flex flex-col bg-white">
         <Header />
         <main className="flex-1 flex items-center justify-center">
-          <p>No jobs available.</p>
+          <div className="flex flex-col items-center justify-center py-10">
+            <img src="/Empty State.svg" alt="No job openings available" className="max-w-xs mb-4" />
+            <p className="text-gray-500 text-lg text-center">No job openings available.</p>
+            <p className="text-gray-500 text-lg text-center">Please wait for the next batch of openings.</p>
+          </div>
         </main>
       </div>
     );
