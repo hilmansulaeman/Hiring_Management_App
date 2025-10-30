@@ -25,6 +25,7 @@ export default {
           hover: "hsl(var(--primary-hover))",
           surface: "hsl(var(--primary-surface))",
         },
+        'custom-blue': '#01959F',
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

@@ -6,7 +6,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import Index from "./pages/Index"; // New landing page
+import ClientJobsPage from "./pages/ClientJobsPage"; // Renamed from Index
 import Apply from "./pages/Apply";
 import AdminPage from "./pages/AdminPage";
 import ManageJobPage from "./pages/ManageJobPage"; // Import the new page
@@ -23,7 +24,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Index />} /> {/* New landing page */}
+          <Route path="/client" element={<ClientJobsPage />} /> {/* Client portal */}
           <Route path="/apply/:jobId" element={<Apply />} />
           <Route path="/apply/success" element={<SuccessPage />} /> {/* New route for success page */}
           <Route path="/admin" element={<AdminPage />} />
