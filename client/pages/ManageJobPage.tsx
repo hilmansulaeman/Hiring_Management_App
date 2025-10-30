@@ -124,7 +124,6 @@ const ManageJobPage: React.FC = () => {
           <span className="font-semibold text-gray-900">Manage Candidate</span>
         </div>
         <Avatar>
-          <AvatarImage src="https://api.builder.io/api/v1/image/assets/TEMP/e8a36fb1d9f45dae7cb3c58860fad5ef79c0d4c5?width=56" alt="User Avatar" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </header>

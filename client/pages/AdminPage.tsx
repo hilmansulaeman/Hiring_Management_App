@@ -105,7 +105,6 @@ const AdminPage = () => {
       <header className="w-full bg-white shadow-sm py-4 px-8 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Job List</h1>
         <Avatar>
-          <AvatarImage src="https://api.builder.io/api/v1/image/assets/TEMP/e8a36fb1d9f45dae7cb3c58860fad5ef79c0d4c5?width=56" alt="User Avatar" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </header>
