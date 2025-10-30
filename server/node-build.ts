@@ -1,8 +1,8 @@
 import path from "path";
-import { createServer } from "./index";
+import app from "./index";
 import * as express from "express";
 
-const app = createServer();
+// The 'app' is already the default export from './index'
 const port = process.env.PORT || 3000;
 
 // In production, serve the built SPA files
