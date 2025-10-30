@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Job {
+  id           String    @id @default(uuid())
+  slug         String    @default("")
+  title        String
+  description  String
+  requirements String
+  salaryMin    Float     @default(0.0)
+  salaryMax    Float     @default(0.0)
+  currency     String    @default("IDR")
+  location     String
+  jobType      String    @default("full-time") // Added jobType field
+  jobStatus    String    @default("draft") // Renamed from 'status' to 'jobStatus'
+  company      String    @default("Rakamin") // Added company field
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  applications  Application[]
+}
+
+model Application {
+  id         String   @id @default(cuid())
+  jobId      String
+  job        Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  fullName   String
+  email      String
+  phone      String
+  dob        DateTime
+  domicile   String
+  gender     String   // "Female" | "Male"
+  linkedin   String
+  photoUrl   String?  // optional: base64 or uploaded URL
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([jobId, createdAt])
+}

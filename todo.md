@@ -1,0 +1,4 @@
+- [ ] Analyze the provided `useHandPose.ts` file for issues.
+- [ ] Identify the root cause of the 'not usable' problem.
+- [ ] Implement necessary fixes or improvements to the code.
+- [ ] Verify the changes (if possible without further context).
