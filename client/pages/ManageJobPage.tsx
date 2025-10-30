@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CandidateDetailModal from '@/components/CandidateDetailModal';
 
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -50,14 +51,26 @@ interface Application {
 }
 
 const ManageJobPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams<{ jobId: string }>();
+  const id = params.jobId;
+  console.log("useParams() object:", params);
+  console.log("Job ID from URL (extracted):", id);
   const [selectedApplications, setSelectedApplications] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState<Application | null>(null);
 
   const { data: job, isLoading, error } = useQuery<Job, Error>({
     queryKey: ['job', id],
     queryFn: async () => {
-      const response = await axios.get(`/api/jobs/${id}`);
-      return response.data;
+      console.log("Fetching job with ID:", id);
+      try {
+        const response = await axios.get(`/api/jobs/${id}`);
+        console.log("API Response for job:", response.data);
+        return response.data;
+      } catch (fetchError) {
+        console.error("Error fetching job:", fetchError);
+        throw fetchError; // Re-throw to let useQuery handle the error state
+      }
     },
     enabled: !!id,
   });
@@ -78,9 +91,26 @@ const ManageJobPage: React.FC = () => {
     }
   };
 
+  const handleOpenModal = (candidate: Application) => {
+    setSelectedCandidate(candidate);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCandidate(null);
+  };
+
+  console.log("isLoading:", isLoading);
+  console.log("error:", error);
+  console.log("job:", job);
+
   if (isLoading) return <div>Loading job details...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!job) return <div>Job not found</div>;
+
+  console.log("Job data (after checks):", job);
+  console.log("Applications data (after checks):", job.applications);
 
   const hasApplications = job.applications && job.applications.length > 0;
 
@@ -107,7 +137,7 @@ const ManageJobPage: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[50px]">
+                  <TableHead className="whitespace-nowrap">
                     <Checkbox
                       checked={selectedApplications.length === job.applications.length}
                       onCheckedChange={handleSelectAllApplications}
@@ -126,8 +156,8 @@ const ManageJobPage: React.FC = () => {
               </TableHeader>
               <TableBody>
                 {job.applications.map((application) => (
-                  <TableRow key={application.id}>
-                    <TableCell>
+                  <TableRow key={application.id} onClick={() => handleOpenModal(application)} className="cursor-pointer hover:bg-gray-100">
+                    <TableCell onClick={(e) => e.stopPropagation()}> {/* Prevent modal from opening when checkbox is clicked */}
                       <Checkbox
                         checked={selectedApplications.includes(application.id)}
                         onCheckedChange={() => handleSelectApplication(application.id)}
@@ -150,7 +180,7 @@ const ManageJobPage: React.FC = () => {
                     <TableCell>{application.domicile || 'N/A'}</TableCell>
                     <TableCell>
                       {application.linkedin ? (
-                        <a href={application.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                        <a href={application.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
                           LinkedIn
                         </a>
                       ) : (
@@ -170,6 +200,12 @@ const ManageJobPage: React.FC = () => {
           )}
         </div>
       </main>
+
+      <CandidateDetailModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        candidate={selectedCandidate}
+      />
     </div>
   );
 };
