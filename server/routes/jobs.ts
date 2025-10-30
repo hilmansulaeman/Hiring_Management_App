@@ -126,7 +126,7 @@ router.post('/', async (req, res) => {
       location: location || "Jakarta Selatan",
       jobType: jobType || "full-time",
       jobStatus: jobStatus || "draft",
-      company: company || "Rakamin",
+      company: company || "Hiring_management_app",
       slug,
     };
 

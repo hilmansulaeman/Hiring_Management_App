@@ -71,7 +71,7 @@ const AdminPage = () => {
           location: "Jakarta Selatan", // Default location
           jobType: newJobData.type, // 'type' from modal maps to 'jobType'
           jobStatus: "draft", // Default jobStatus for new jobs
-          company: "Rakamin", // Default company
+          company: "Hiring_management_app", // Default company
         }),
       });
 
